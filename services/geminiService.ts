@@ -1,4 +1,3 @@
-
 import { GoogleGenAI, Type } from "@google/genai";
 import type { Itinerary, Budget } from '../types';
 
@@ -38,6 +37,20 @@ const itinerarySchema = {
             details: {
               type: Type.STRING,
               description: 'Optional longer description with tips, booking info, or context.'
+            },
+            restaurant: {
+              type: Type.OBJECT,
+              description: "Details for a specific restaurant, required if the activity is dining.",
+              properties: {
+                name: {
+                  type: Type.STRING,
+                  description: "The name of the recommended restaurant."
+                },
+                cuisine: {
+                  type: Type.STRING,
+                  description: "The type of cuisine the restaurant serves, e.g., 'Italian', 'Local Thai'."
+                }
+              }
             }
           },
           required: ['time', 'description'],
@@ -64,9 +77,11 @@ export const generateItinerary = async (
   - **Traveler Interests:** ${interests}
   - **Budget:** ${budget}
 
-  Please provide a creative and practical itinerary. For each day, include a fun title and a schedule for the morning, afternoon, and evening. Activities should include a mix of sightseeing, dining, and experiences relevant to the interests. For dining, suggest specific restaurants or types of cuisine that fit the specified budget.
+  Please provide a creative and practical itinerary. For each day, include a fun title and a schedule for the morning, afternoon, and evening. Activities should include a mix of sightseeing, dining, and experiences relevant to the interests.
   
-  **Crucially, tailor the activities and suggestions to be appropriate for the specified time of year (${timeOfYear}), considering potential weather, holidays, or seasonal events.**
+  **For all dining suggestions (e.g., lunch, dinner, breakfast), you MUST recommend a specific, real restaurant IN THE DESTINATION by name.** Populate the 'restaurant' object with the restaurant's name and its cuisine type. The chosen restaurants must fit the specified budget. The restaurant MUST be highly rated. 
+  
+  **Crucially, tailor all activities and suggestions to be appropriate for the specified time of year (${timeOfYear}), considering potential weather, holidays, or seasonal events.**
 
   Generate the response in a valid JSON format according to the provided schema.`;
 

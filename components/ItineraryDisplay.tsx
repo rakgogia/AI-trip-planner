@@ -1,4 +1,3 @@
-
 import React from 'react';
 import type { Itinerary, DailyPlan, Activity } from '../types';
 import { SunIcon, MoonIcon, UtensilsIcon } from './Icons';
@@ -9,6 +8,7 @@ interface ItineraryDisplayProps {
 
 const ActivityCard: React.FC<{ activity: Activity, day: number }> = ({ activity, day }) => {
   const getIcon = () => {
+    if (activity.restaurant) return <UtensilsIcon className="h-6 w-6 text-orange-500" />;
     const time = activity.time.toLowerCase();
     if (time.includes('morning') || time.includes('afternoon')) return <SunIcon className="h-6 w-6 text-yellow-500" />;
     if (time.includes('evening') || time.includes('night')) return <MoonIcon className="h-6 w-6 text-indigo-400" />;
@@ -22,7 +22,20 @@ const ActivityCard: React.FC<{ activity: Activity, day: number }> = ({ activity,
       <div>
         <h4 className="font-bold text-gray-800 dark:text-gray-100">{activity.time}</h4>
         <p className="text-gray-700 dark:text-gray-300">{activity.description}</p>
-        {activity.details && <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">{activity.details}</p>}
+        
+        {activity.restaurant && (
+          <div className="mt-2 p-3 rounded-md bg-emerald-50 dark:bg-emerald-900/40 border border-emerald-200 dark:border-emerald-800">
+            <p className="font-semibold text-emerald-800 dark:text-emerald-200 flex items-center">
+              <UtensilsIcon className="h-4 w-4 mr-2 flex-shrink-0" />
+              <span>Restaurant: <span className="font-bold">{activity.restaurant.name}</span></span>
+            </p>
+            <p className="text-sm text-emerald-700 dark:text-emerald-300 ml-6">
+              Cuisine: {activity.restaurant.cuisine}
+            </p>
+          </div>
+        )}
+        
+        {activity.details && <p className="mt-2 text-sm text-gray-500 dark:text-gray-400">{activity.details}</p>}
       </div>
     </div>
   );
