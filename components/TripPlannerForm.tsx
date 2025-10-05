@@ -1,14 +1,15 @@
 
 import React, { useState } from 'react';
 import { Budget } from '../types';
-import { LocationIcon, CalendarIcon, BulbIcon, MoneyIcon } from './Icons';
+import { LocationIcon, CalendarIcon, BulbIcon, MoneyIcon, SparklesIcon } from './Icons';
 
 interface TripPlannerFormProps {
   onSubmit: (
     destination: string,
     duration: number,
     interests: string,
-    budget: Budget
+    budget: Budget,
+    timeOfYear: string
   ) => void;
   isLoading: boolean;
 }
@@ -18,11 +19,12 @@ export const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmit, isLo
   const [duration, setDuration] = useState(5);
   const [interests, setInterests] = useState('history, local cuisine, and scenic views');
   const [budget, setBudget] = useState<Budget>(Budget.MidRange);
+  const [timeOfYear, setTimeOfYear] = useState('Summer');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (destination && duration > 0 && interests) {
-      onSubmit(destination, duration, interests, budget);
+      onSubmit(destination, duration, interests, budget, timeOfYear);
     }
   };
 
@@ -69,6 +71,46 @@ export const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmit, isLo
             </div>
           </div>
         </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Time of Year */}
+            <div>
+                <label htmlFor="timeOfYear" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Time of Year / Season</label>
+                <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                        <SparklesIcon className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                        type="text"
+                        id="timeOfYear"
+                        value={timeOfYear}
+                        onChange={(e) => setTimeOfYear(e.target.value)}
+                        placeholder="e.g., Summer, December"
+                        required
+                        className="w-full pl-10 p-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    />
+                </div>
+            </div>
+            {/* Budget */}
+            <div>
+                <label htmlFor="budget" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Budget</label>
+                <div className="relative">
+                    <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                    <MoneyIcon className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <select
+                    id="budget"
+                    value={budget}
+                    onChange={(e) => setBudget(e.target.value as Budget)}
+                    className="w-full pl-10 p-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition appearance-none"
+                    >
+                    {Object.values(Budget).map((b) => (
+                        <option key={b} value={b}>{b}</option>
+                    ))}
+                    </select>
+                </div>
+            </div>
+        </div>
 
         {/* Interests */}
         <div>
@@ -87,26 +129,6 @@ export const TripPlannerForm: React.FC<TripPlannerFormProps> = ({ onSubmit, isLo
                 className="w-full pl-10 p-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
               />
             </div>
-        </div>
-
-        {/* Budget */}
-        <div>
-          <label htmlFor="budget" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Budget</label>
-          <div className="relative">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <MoneyIcon className="h-5 w-5 text-gray-400" />
-            </div>
-            <select
-              id="budget"
-              value={budget}
-              onChange={(e) => setBudget(e.target.value as Budget)}
-              className="w-full pl-10 p-3 bg-gray-50 dark:bg-slate-700 border border-gray-300 dark:border-slate-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition appearance-none"
-            >
-              {Object.values(Budget).map((b) => (
-                <option key={b} value={b}>{b}</option>
-              ))}
-            </select>
-          </div>
         </div>
 
         {/* Submit Button */}

@@ -19,7 +19,8 @@ const App: React.FC = () => {
     destination: string,
     duration: number,
     interests: string,
-    budget: Budget
+    budget: Budget,
+    timeOfYear: string
   ) => {
     setIsLoading(true);
     setError(null);
@@ -29,7 +30,8 @@ const App: React.FC = () => {
         destination,
         duration,
         interests,
-        budget
+        budget,
+        timeOfYear
       );
       setItinerary(generatedItinerary);
     } catch (err) {

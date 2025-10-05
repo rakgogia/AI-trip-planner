@@ -52,17 +52,21 @@ export const generateItinerary = async (
   destination: string,
   duration: number,
   interests: string,
-  budget: Budget
+  budget: Budget,
+  timeOfYear: string
 ): Promise<Itinerary> => {
   const prompt = `You are an expert travel agent. Create a detailed, day-by-day travel itinerary for a trip.
   
   **Trip Details:**
   - **Destination:** ${destination}
   - **Duration:** ${duration} days
+  - **Time of Year:** ${timeOfYear}
   - **Traveler Interests:** ${interests}
   - **Budget:** ${budget}
 
-  Please provide a creative and practical itinerary. For each day, include a fun title and a schedule for the morning, afternoon, and evening. Activities should include a mix of sightseeing, dining, and experiences relevant to the interests. For dining, suggest specific restaurants or types of cuisine that fit the specified budget. Include practical details where possible.
+  Please provide a creative and practical itinerary. For each day, include a fun title and a schedule for the morning, afternoon, and evening. Activities should include a mix of sightseeing, dining, and experiences relevant to the interests. For dining, suggest specific restaurants or types of cuisine that fit the specified budget.
+  
+  **Crucially, tailor the activities and suggestions to be appropriate for the specified time of year (${timeOfYear}), considering potential weather, holidays, or seasonal events.**
 
   Generate the response in a valid JSON format according to the provided schema.`;
 
