@@ -1,0 +1,5 @@
+{
+  "name": "AI Trip Planner",
+  "description": "An AI-powered trip planner that creates personalized itineraries based on your destination, duration, interests, and budget. Get a detailed day-by-day plan with activities, dining suggestions, and tips.",
+  "requestFramePermissions": []
+}
