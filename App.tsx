@@ -41,7 +41,8 @@ const App: React.FC = () => {
           throw new Error('Failed to fetch location data.');
         }
         const data = await response.json();
-        if (data.continent_code !== 'NA') {
+        const allowedCountries = ['US', 'CA', 'MX']; // United States, Canada, Mexico
+        if (!allowedCountries.includes(data.country_code)) {
           setIsRestricted(true);
         }
       } catch (err) {
